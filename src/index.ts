@@ -1,8 +1,10 @@
+import 'reflect-metadata';
 import express, { Request, Response } from 'express';
-import { dataSource } from './data-source';
+import { AppDataSource } from './config/app-data-source';
 
-dataSource
-  .initialize()
+// import { container } from 'tsyringe';
+
+AppDataSource.initialize()
   .then(() => {
     console.log('Datasource Initialized');
   })
@@ -10,12 +12,13 @@ dataSource
     console.error('Error during Data Source initialization:', err);
   });
 
+
 const app = express();
 
 const PORT = process.env.PORT;
 
 app.get('/', (request: Request, response: Response) => {
-  response.status(200).send('Hello World');
+  response.status(201).send('Hello World');
 });
 
 app

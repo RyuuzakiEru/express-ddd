@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "typeorm": "typeorm-ts-node-esm",
+    "typeorm": "typeorm-ts-node-commonjs",
     "lint": "eslint \"{src,shared,test}/**/*.ts\" --cache",
+    "db:seed": "ts-node src/scripts/seed-books.ts",
     "start:dev": "node-dev src/index.ts --clear"
   },
   "keywords": [],
@@ -13,8 +14,10 @@
   "license": "ISC",
   "description": "Example of Express + DDD",
   "dependencies": {
+    "@types/mongodb": "^4.0.7",
+    "csv-parse": "^5.5.6",
     "express": "^4.19.2",
-    "mongodb": "^5.9.2",
+    "mongodb": "^5.8.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.8.0",
     "typeorm": "^0.3.20"
