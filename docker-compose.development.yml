@@ -1,0 +1,31 @@
+services:
+  express-ddd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: [ "/bin/sh" ]
+    depends_on:
+      - database
+    env_file:
+      - .env
+    ports:
+      - $PORT:$PORT
+    volumes:
+      - .:/service:delegated
+    environment:
+      PORT: $PORT
+      DB_PORT: $DB_PORT
+    networks:
+      - local
+
+  database:
+    image: mongo
+    ports:
+      - $DB_PORT:27017
+    networks:
+      - local
+
+networks:
+  local:
+    name: local
