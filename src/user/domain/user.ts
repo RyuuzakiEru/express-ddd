@@ -16,4 +16,20 @@ export class User {
   static create(username: string, email: string, walletBalance: number): User {
     return new User(ObjectId.createFromTime(Date.now()), username, email, walletBalance);
   }
+
+  deductFromWallet(amount: number): void {
+    if (this.walletBalance >= amount) {
+      this.walletBalance -= amount;
+    } else {
+      throw new Error('Insufficient funds in the wallet.');
+    }
+  }
+
+  addToWallet(amount: number): void {
+    this.walletBalance += amount;
+  }
+
+  hasSufficientBalance(amount: number): boolean {
+    return this.walletBalance >= amount;
+  }
 }

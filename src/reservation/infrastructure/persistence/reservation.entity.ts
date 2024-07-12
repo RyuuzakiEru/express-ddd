@@ -17,6 +17,9 @@ export class ReservationEntity {
   
   @Column()
   dueDate: Date;
+  
+  @Column()
+  cost: number;
 
   @Column()
   returnedAt?: Date;

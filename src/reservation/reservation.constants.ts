@@ -1,1 +1,1 @@
-export const RESERVATION_REPOSITORY = Symbol.for('ReservationRepository')
+export const RESERVATION_REPOSITORY = Symbol.for('ReservationRepository');

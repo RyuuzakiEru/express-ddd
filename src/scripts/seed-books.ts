@@ -4,8 +4,10 @@ import { parse } from 'csv-parse';
 import { AppDataSource } from '../config/app-data-source';
 import { BookEntity } from '../book/infrastructure/persistence/book.entity';
 import { exit } from 'process';
+import { UserEntity } from '../user/infrastructure/persistence/user.entity';
+import { ObjectId } from 'mongodb';
 
-async function importBooks() {
+async function seedData() {
   await AppDataSource.initialize();
   const bookRepository = AppDataSource.getMongoRepository(BookEntity);
 
@@ -25,7 +27,16 @@ async function importBooks() {
   }
 
   console.log('Books imported successfully');
+
+  const seedUser = new UserEntity();
+  seedUser.id = new ObjectId();
+  seedUser.name = 'TEST USER';
+  seedUser.email = 'test@email.com';
+  seedUser.wallet = 100;
+  await AppDataSource.getMongoRepository(UserEntity).save(seedUser);
+
+  console.log(`User ${seedUser.id.toString()} seeded successfully`);
   exit(0);
 }
 
-importBooks().catch((error) => console.error('Error importing books:', error));
+seedData().catch((error) => console.error('Error Seeding:', error));

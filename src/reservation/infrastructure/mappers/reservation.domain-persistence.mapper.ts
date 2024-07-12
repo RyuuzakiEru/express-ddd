@@ -10,6 +10,7 @@ export const ReservationDomainPersistenceMapper = {
       entity.bookId,
       entity.reservedAt,
       entity.dueDate,
+      entity.cost,
       entity.returnedAt
     ),
   ),

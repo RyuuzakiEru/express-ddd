@@ -6,6 +6,7 @@ export class Reservation {
   bookId: ObjectId;
   reservedAt: Date;
   dueDate: Date;
+  cost: number;
   returnedAt?: Date;
 
   constructor(
@@ -14,6 +15,7 @@ export class Reservation {
     bookId: ObjectId,
     reservedAt: Date,
     dueDate: Date,
+    cost: number,
     returnedAt?: Date,
   ) {
     this.id = id;
@@ -21,6 +23,7 @@ export class Reservation {
     this.bookId = bookId;
     this.reservedAt = reservedAt;
     this.dueDate = dueDate;
+    this.cost = cost;
     this.returnedAt = returnedAt;
   }
 
@@ -29,6 +32,7 @@ export class Reservation {
     bookId: ObjectId,
     reservedAt: Date,
     dueDate: Date,
+    cost: number,
     returnedAt?: Date,
   ) {
     return new Reservation(
@@ -37,6 +41,7 @@ export class Reservation {
       bookId,
       reservedAt,
       dueDate,
+      cost,
       returnedAt,
     );
   }

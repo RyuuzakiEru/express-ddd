@@ -1,9 +1,8 @@
-// src/reservation/infrastructure/repositories/TypeORMReservationRepository.ts
 import { MongoRepository } from 'typeorm';
 import { AppDataSource } from '../../../config/app-data-source';
-import { Reservation } from '../../domain/reservation';
 import { ReservationRepository } from '../../domain/reservation.repository';
 import { ReservationEntity } from './reservation.entity';
+import { Reservation } from '../../domain/reservation';
 import { ReservationDomainPersistenceMapper } from '../mappers/reservation.domain-persistence.mapper';
 
 export class TypeORMReservationRepository implements ReservationRepository {
@@ -22,18 +21,13 @@ export class TypeORMReservationRepository implements ReservationRepository {
     return entity ? this.mapPersistenceToDomain(entity) : undefined;
   }
 
-  async findByUser(userId: string): Promise<Reservation[]> {
-    const entities = await this.repository.find({ where: { user: userId } });
+  async findByUserId(userId: string): Promise<Reservation[]> {
+    const entities = await this.repository.find({ where: { userId } });
     return entities.map((entity) => this.mapPersistenceToDomain(entity));
   }
 
-  async findByBook(bookId: string): Promise<Reservation[]> {
-    const entities = await this.repository.find({ where: { book: bookId } });
-    return entities.map((entity) => this.mapPersistenceToDomain(entity));
-  }
-
-  async findAll(): Promise<Reservation[]> {
-    const entities = await this.repository.find();
+  async findByBookId(bookId: string): Promise<Reservation[]> {
+    const entities = await this.repository.find({ where: { bookId } });
     return entities.map((entity) => this.mapPersistenceToDomain(entity));
   }
 
@@ -44,5 +38,28 @@ export class TypeORMReservationRepository implements ReservationRepository {
 
   async delete(id: string): Promise<void> {
     await this.repository.delete(id);
+  }
+
+  async findReservationsByDueDate(dueDate: Date, daysOffset: number): Promise<Reservation[]> {
+    const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+    const endDate = new Date(dueDate.getTime() + daysOffset * ONE_DAY_IN_MS);
+    const entities = await this.repository.find({
+      where: {
+        dueDate: {
+          $gte: dueDate,
+          $lt: endDate,
+        },
+        returnedAt: null,
+      },
+    });
+    return entities.map((entity) => this.mapPersistenceToDomain(entity));
+  }
+
+  async countActiveReservationsByUserId(userId: string): Promise<number> {
+    return await this.repository.count({ where: { userId, returnedAt: null } });
+  }
+
+  async countActiveReservationsByBookId(bookId: string): Promise<number> {
+    return await this.repository.count({ where: { bookId, returnedAt: null } });
   }
 }

@@ -45,4 +45,11 @@ export class Book {
       copiesAvailable,
     );
   }
+
+  updateCopiesAvailable(copies: number) {
+    if (copies < 0) {
+      throw new Error('Available Copies cannot be less than 0');
+    }
+    this.copiesAvailable = copies;
+  }
 }
