@@ -8,12 +8,8 @@ This API provides functionalities to manage a library's book inventory, handle u
 - [Setup](#setup)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Configuration](#configuration)
 - [Endpoints](#endpoints)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
+- [Missing things](#Missing)
 
 ## Technologies Used
 
@@ -80,7 +76,7 @@ If you need to start in dev mode, you can also
 - POST /v1/reservations/:id/return: Returns reservation <-- THIS IS NOT RESTful IMHO, looks more like a BFF Endpoint
 
 
-## Missing things:
+## Missing
 - Value Objects: Domain layer has primitives, and this should not be the case, ideally every property should be encapsulated into a Value object
 - Domain Events: Domain Entities should hold a record of relevant domain events, on the other hand, a Domain Event Bus should be put in place
 - Isolate components: Despite using a DI container, each `component` should be aseptic enough to be registered in the app (this means, controllers, repositories, services)
@@ -89,5 +85,5 @@ If you need to start in dev mode, you can also
 - Mappers: DTO to Command mappers are missing, its resposibility is to get the validated DTO and transform into the correct `Service` Input
 - Service Signatures: `type Service<I,O>` should be implemented in every service to ensure the proper return values are respected:
 ``` 
-type FindBooksService = Service<FindBooksService, Book[]>
+type FindBooksService = Service<FindBooksQuery, Book[]>
 ```
